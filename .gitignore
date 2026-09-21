@@ -1,0 +1,22 @@
+# Obsidian config
+.obsidian/
+
+# Raw screenshots / attachments
+Cybervault/Attachments/
+
+# Archive (drafts)
+Cybervault/Areas/Archive/
+
+# Vault meta / templates
+Cybervault/Areas/Templates/
+Cybervault/Areas/Daily/README.md
+Cybervault/Home.md
+
+# Empty placeholder folders
+Cybervault/Areas/Github/
+Cybervault/Areas/Linkedin/
+Cybervault/Inbox/
+
+# OS files
+Thumbs.db
+.DS_Store
