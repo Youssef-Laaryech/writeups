@@ -1,21 +1,21 @@
-# 🔐 Cybervault — Pentest Notes & HTB Writeups
+# Cybervault — Pentest Notes & HTB Writeups
 
-> Personal offensive security knowledge base: HackTheBox machine writeups, CVE research, tool references, and technique notes — all cross-linked and maintained in Obsidian.
+Personal offensive security knowledge base: HackTheBox machine writeups, CVE research, tool references, and technique notes.
 
 ---
 
-## 📋 HackTheBox Writeups
+## HackTheBox Writeups
 
 | # | Machine | OS | Difficulty | Status | Key Techniques |
 |---|---------|-----|------------|--------|----------------|
-| 1 | [Nexus](Projects/labs%20and%20machines/writeaps/nexus%20htb%20machine/Nexus%20htb%20machine%20(github).md) | 🐧 Linux | Easy | ✅ Complete | Vhost fuzzing · Git commit history leak · CVE-2026-38526 (unrestricted file upload → RCE) · `os.path.join()` path traversal · Raw Git object crafting |
-| 2 | [Silentium](Projects/labs%20and%20machines/writeaps/silentium%20htb%20machine/silentium%20writeup%20(github).md) | 🐧 Linux | Medium | ✅ Complete | Subdomain fuzzing · CVE-2025-58434 (Flowise ATO via token leak) · CVE-2025-59528 (Flowise CustomMCP RCE) · Container env credential leak · CVE-2025-8110 (Gogs symlink → sshCommand → root) |
-| 3 | [Cohort](Projects/labs%20and%20machines/writeaps/Cohort%20Htb%20machine/Cohort%20htb%20machine%20(github).md) | 🐧 Linux | Medium | ✅ Complete | SSRF + loopback filter bypass (`127.1`) · Internal port enumeration · Nginx `/status` vhost leak · CVE-2026-39987 (Marimo pre-auth WebSocket RCE) · CVE-2026-41651 (PackageKit TOCTOU → root) |
-| 4 | [Abducted](Projects/labs%20and%20machines/writeaps/Abducted%20htb%20machine/Abducted%20writeup%20(github).md) | 🐧 Linux (Samba) | Medium | 🔄 In Progress | SMB null session · RPC anonymous enum · User/share/policy extraction via `enum4linux-ng` |
+| 1 | [Nexus](Projects/labs%20and%20machines/writeaps/nexus%20htb%20machine/Nexus%20htb%20machine%20(github).md) | Linux | Easy | Complete | Vhost fuzzing · Git commit history leak · CVE-2026-38526 (unrestricted file upload → RCE) · `os.path.join()` path traversal · Raw Git object crafting |
+| 2 | [Silentium](Projects/labs%20and%20machines/writeaps/silentium%20htb%20machine/silentium%20writeup%20(github).md) | Linux | Medium | Complete | Subdomain fuzzing · CVE-2025-58434 (Flowise ATO via token leak) · CVE-2025-59528 (Flowise CustomMCP RCE) · Container env credential leak · CVE-2025-8110 (Gogs symlink traversal → sshCommand → root) |
+| 3 | [Cohort](Projects/labs%20and%20machines/writeaps/Cohort%20Htb%20machine/Cohort%20htb%20machine%20(github).md) | Linux | Medium | Complete | SSRF + loopback filter bypass (`127.1`) · Internal port enumeration · Nginx `/status` vhost leak · CVE-2026-39987 (Marimo pre-auth WebSocket RCE) · CVE-2026-41651 (PackageKit TOCTOU → root) |
+| 4 | [Abducted](Projects/labs%20and%20machines/writeaps/Abducted%20htb%20machine/Abducted%20writeup%20(github).md) | Linux (Samba) | Medium | In Progress | SMB null session · RPC anonymous enum · User/share/policy extraction via `enum4linux-ng` |
 
 ---
 
-## 🧠 Knowledge Base
+## Knowledge Base
 
 ### Techniques
 
@@ -25,13 +25,13 @@
 | [Unrestricted File Upload → RCE](Knowledge/Concept/Unrestricted%20File%20Upload%20RCE.md) | Bypassing file type restrictions to upload and execute server-side code |
 | [Credential Reuse](Knowledge/Concept/Credential%20Reuse.md) | Reusing credentials leaked from one service to authenticate to another |
 | [Vhost Fuzzing](Knowledge/Concept/Vhost%20Fuzzing.md) | Discovering hidden virtual hosts by fuzzing the HTTP `Host` header |
-| [Git Commit History Leakage](Knowledge/Concept/Git%20Commit%20History%20Leakage.md) | Recovering secrets that were committed and then "deleted" — still visible in git history |
-| [Raw Git Object Crafting](Knowledge/Concept/Raw%20Git%20Object%20Crafting.md) | Writing blob/tree/commit objects directly to `.git/objects/` to bypass client-side path validation |
+| [Git Commit History Leakage](Knowledge/Concept/Git%20Commit%20History%20Leakage.md) | Recovering secrets that were committed then removed — still visible in git history |
+| [Raw Git Object Crafting](Knowledge/Concept/Raw%20Git%20Object%20Crafting.md) | Writing blob/tree/commit objects directly to `.git/objects/` to bypass path validation |
 | [SMB / smbmap / smbclient](Knowledge/Concept/smb%2Csmbmap%2C%20smbcclient.md) | SMB enumeration — null sessions, share listing, RPC user/policy extraction |
 
 ---
 
-### 🛠️ Tools
+### Tools
 
 | Tool | Category | Notes |
 |------|----------|-------|
@@ -47,30 +47,30 @@
 | [metasploit](Areas/Ressources/Tools/metasploit.md) | Exploitation | Full exploitation framework — modules, payloads, post |
 | [meterpreter](Areas/Ressources/Tools/meterpreter.md) | Post-Exploit | Advanced Metasploit payload — in-memory, pivoting, migration |
 | [msfvenom](Areas/Ressources/Tools/msfvenom.md) | Exploitation | Payload generator — shellcode, executables, web shells |
-| [git](Areas/Ressources/Tools/git.md) | Recon / Exploit | Pentest use — history inspection, raw object crafting |
-| [tcpdump](Areas/Ressources/Tools/tcpdump.md) | Traffic | CLI packet capture — filter by host/port/protocol |
-| [wireshark](Areas/Ressources/Tools/wireshark.md) | Traffic | GUI packet analysis — protocol dissection, stream follow |
-| [cdk](Areas/Ressources/Tools/cdk.md) | Container | Container escape toolkit — CDK enumerate, exploit, pivot |
+| [git](Areas/Ressources/Tools/git.md) | Recon / Exploit | History inspection, raw object crafting, credential leaks |
+| [tcpdump](Areas/Ressources/Tools/tcpdump.md) | Traffic Analysis | CLI packet capture — filter by host, port, protocol |
+| [wireshark](Areas/Ressources/Tools/wireshark.md) | Traffic Analysis | GUI packet analysis — protocol dissection, stream follow |
+| [cdk](Areas/Ressources/Tools/cdk.md) | Container | Container escape toolkit — enumerate, exploit, pivot |
 | [aircrack-ng](Areas/Ressources/Tools/aircrack-ng.md) | Wireless | Wi-Fi auditing — capture, crack WEP/WPA handshakes |
-| [shodan](Areas/Ressources/Tools/shodan.md) | OSINT | Internet-wide search engine — open ports, banners, CVEs |
+| [shodan](Areas/Ressources/Tools/shodan.md) | OSINT | Internet-wide search — open ports, banners, CVEs |
 
 ---
 
-### 📄 Cheatsheets
+### Cheatsheets
 
 | Cheatsheet | Phase | Contents |
 |------------|-------|----------|
-| [Recon](Areas/Ressources/Commands/Pentest%20Recon%20Cheatsheet.md) | Enumeration | nmap, ffuf, gobuster, whatweb, dns recon |
+| [Recon](Areas/Ressources/Commands/Pentest%20Recon%20Cheatsheet.md) | Enumeration | nmap, ffuf, gobuster, whatweb, DNS recon |
 | [Web / Foothold](Areas/Ressources/Commands/Pentest%20Web%20Cheatsheet.md) | Foothold | SQLi, LFI, file upload, SSRF, SSTI, XXE |
-| [Privilege Escalation](Areas/Ressources/Commands/Pentest%20Privesc%20Cheatsheet.md) | Privesc | SUID, sudo abuse, cron, capabilities, services |
+| [Privilege Escalation](Areas/Ressources/Commands/Pentest%20Privesc%20Cheatsheet.md) | Privesc | SUID, sudo abuse, cron jobs, capabilities, services |
 | [Pivoting](Areas/Ressources/Commands/Pivoting%20Cheatsheet.md) | Pivoting | SSH tunnels, chisel, ligolo-ng, proxychains |
 | [Reverse Shells](Areas/Ressources/Commands/Reverse%20Shell%20Cheatsheet.md) | Shells | Bash, Python, PHP, nc, Perl, PowerShell, Ruby |
-| [Linux Permissions](Areas/Ressources/Commands/Linux%20Permissions%20Cheatsheet.md) | Hardening | chmod, chown, SUID/SGID/sticky, ACLs, umask |
-| [HTTP Reference](Areas/Ressources/Commands/HTTP%20Reference.md) | Web | Methods, status codes, headers, auth schemes |
+| [Linux Permissions](Areas/Ressources/Commands/Linux%20Permissions%20Cheatsheet.md) | Hardening | chmod, chown, SUID/SGID/sticky bit, ACLs, umask |
+| [HTTP Reference](Areas/Ressources/Commands/HTTP%20Reference.md) | Web | Methods, status codes, headers, authentication schemes |
 
 ---
 
-### 📖 Study Notes
+### Study Notes
 
 | Topic | Notes |
 |-------|-------|
@@ -80,7 +80,7 @@
 
 ---
 
-## 🗂️ Repository Structure
+## Structure
 
 ```
 .
@@ -88,31 +88,24 @@
 │   └── labs and machines/
 │       └── writeaps/
 │           ├── nexus htb machine/
-│           │   ├── Nexus htb machine (github).md   ← GitHub version (images render)
-│           │   ├── Nexus htb machine.md             ← Obsidian version (wikilinks)
-│           │   └── images/                          ← screenshots for GitHub version
+│           │   ├── Nexus htb machine (github).md   <- GitHub version (images render)
+│           │   ├── Nexus htb machine.md             <- Obsidian version (wikilinks)
+│           │   └── images/                          <- screenshots for GitHub version
 │           ├── silentium htb machine/
 │           ├── Cohort Htb machine/
 │           └── Abducted htb machine/
-│
 ├── Knowledge/
-│   └── Concept/               ← atomic technique notes (one concept per file)
-│
+│   └── Concept/               <- atomic technique notes
 ├── Areas/
-│   ├── Daily/                 ← protocol & web study notes
-│   │   └── HTTP/
-│   ├── Ressources/
-│   │   ├── Tools/             ← one reference note per tool
-│   │   └── Commands/          ← cheatsheets organised by attack phase
-│   └── Templates/             ← Obsidian templates (writeup, tool, concept)
-│
-└── README.md
+│   ├── Daily/                 <- protocol and web study notes
+│   └── Ressources/
+│       ├── Tools/             <- one reference note per tool
+│       └── Commands/          <- cheatsheets by attack phase
+└── Areas/Templates/           <- Obsidian templates (writeup, tool, concept)
 ```
 
-> **Two versions per writeup:**
-> - `(github).md` — images use `![](images/filename.png)` relative links → renders correctly on GitHub
-> - `.md` — Obsidian version, images use `![[wikilinks]]` pointing to the shared `Attachments/` folder
+Each machine writeup ships in two versions:
+- `(github).md` — uses `![](images/filename.png)` relative links, screenshots render on GitHub
+- `.md` — Obsidian version, uses `![[wikilinks]]` pointing to the shared Attachments folder
 
----
-
-*Written in Markdown. Best viewed in [Obsidian](https://obsidian.md/) for graph view, backlinks, and search.*
+Readable in any Markdown viewer or [Obsidian](https://obsidian.md/).
