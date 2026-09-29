@@ -9,9 +9,12 @@ Personal offensive security knowledge base: HackTheBox machine writeups, CVE res
 | # | Machine | OS | Difficulty | Status | Key Techniques |
 |---|---------|-----|------------|--------|----------------|
 | 1 | [Nexus](Projects/labs%20and%20machines/writeaps/nexus%20htb%20machine/Nexus%20htb%20machine%20(github).md) | Linux | Easy | Complete | Vhost fuzzing · Git commit history leak · CVE-2026-38526 (unrestricted file upload → RCE) · `os.path.join()` path traversal · Raw Git object crafting |
-| 2 | [Silentium](Projects/labs%20and%20machines/writeaps/silentium%20htb%20machine/silentium%20writeup%20(github).md) | Linux | Medium | Complete | Subdomain fuzzing · CVE-2025-58434 (Flowise ATO via token leak) · CVE-2025-59528 (Flowise CustomMCP RCE) · Container env credential leak · CVE-2025-8110 (Gogs symlink traversal → sshCommand → root) |
-| 3 | [Cohort](Projects/labs%20and%20machines/writeaps/Cohort%20Htb%20machine/Cohort%20htb%20machine%20(github).md) | Linux | Medium | Complete | SSRF + loopback filter bypass (`127.1`) · Internal port enumeration · Nginx `/status` vhost leak · CVE-2026-39987 (Marimo pre-auth WebSocket RCE) · CVE-2026-41651 (PackageKit TOCTOU → root) |
-| 4 | [Abducted](Projects/labs%20and%20machines/writeaps/Abducted%20htb%20machine/Abducted%20writeup%20(github).md) | Linux (Samba) | Medium | In Progress | SMB null session · RPC anonymous enum · User/share/policy extraction via `enum4linux-ng` |
+| 2 | [Silentium](Projects/labs%20and%20machines/writeaps/silentium%20htb%20machine/silentium%20writeup%20(github).md) | Linux | Medium | Complete | Subdomain fuzzing · CVE-2025-58434 (Flowise ATO) · CVE-2025-59528 (Flowise CustomMCP RCE) · Container env credential leak · CVE-2025-8110 (Gogs symlink → sshCommand → root) |
+| 3 | [Cohort](Projects/labs%20and%20machines/writeaps/Cohort%20Htb%20machine/Cohort%20htb%20machine%20(github).md) | Linux | Medium | Complete | SSRF + loopback filter bypass (`127.1`) · Internal port enum · Nginx `/status` vhost leak · CVE-2026-39987 (Marimo pre-auth WebSocket RCE) · CVE-2026-41651 (PackageKit TOCTOU → root) |
+| 4 | [Support](Projects/labs%20and%20machines/writeaps/support%20htb%20machine/support%20writeup%20(github).md) | Windows (DC) | Easy | Complete | SMB null session · .NET binary decompilation (ilspycmd) · XOR obfuscation reversal · LDAP `info` attribute credential · WinRM shell · BloodHound GenericAll → RBCD → S4U2Self/S4U2Proxy → SYSTEM |
+| 5 | [TwoMillion](Projects/labs%20and%20machines/writeaps/2million%20htb%20machine/2million%20writeup%20(github).md) | Linux | Easy | Complete | JS obfuscation (ROT13/base64) · API invite code generation · Broken object-level authorization (self-elevate to admin) · OS command injection · `.env` credential reuse · CVE-2023-0386 (OverlayFS SUID → root) |
+| 6 | [Orion](Projects/labs%20and%20machines/writeaps/Orion%20htb%20machine/Orion%20writeup%20(github).md) | Linux | Hard | Complete | Second-order SQL injection · TOTP/2FA bypass via SQLi · SSH agent socket hijacking · Sudo misconfiguration |
+| 7 | [Abducted](Projects/labs%20and%20machines/writeaps/Abducted%20htb%20machine/Abducted%20writeup%20(github).md) | Linux (Samba) | Medium | In Progress | SMB null session · RPC anonymous enum · User/share/policy extraction via `enum4linux-ng` |
 
 ---
 
@@ -28,6 +31,11 @@ Personal offensive security knowledge base: HackTheBox machine writeups, CVE res
 | [Git Commit History Leakage](Knowledge/Concept/Git%20Commit%20History%20Leakage.md) | Recovering secrets that were committed then removed — still visible in git history |
 | [Raw Git Object Crafting](Knowledge/Concept/Raw%20Git%20Object%20Crafting.md) | Writing blob/tree/commit objects directly to `.git/objects/` to bypass path validation |
 | [SMB / smbmap / smbclient](Knowledge/Concept/smb%2Csmbmap%2C%20smbcclient.md) | SMB enumeration — null sessions, share listing, RPC user/policy extraction |
+| [.NET Binary Reverse Engineering](Knowledge/Concept/dotNET%20Binary%20Reverse%20Engineering.md) | Decompiling .NET IL to C# with ilspycmd — finding hardcoded creds and obfuscation routines |
+| [LDAP Enumeration](Knowledge/Concept/LDAP%20Enumeration.md) | Authenticated and anonymous AD LDAP queries — dumping users, attributes, password policy |
+| [BloodHound — AD Enumeration](Knowledge/Concept/BloodHound%20%E2%80%94%20Active%20Directory%20Enumeration.md) | Graph-based AD attack path analysis — collecting, ingesting, and querying domain relationships |
+| [GenericAll ACL Abuse](Knowledge/Concept/GenericAll%20ACL%20Abuse.md) | Full AD object control — password reset, group add, computer attribute write |
+| [RBCD](Knowledge/Concept/RBCD%20%28Resource-Based%20Constrained%20Delegation%29.md) | Kerberos delegation abuse via `msDS-AllowedToActOnBehalfOfOtherIdentity` → impersonate any domain user |
 
 ---
 
@@ -53,6 +61,11 @@ Personal offensive security knowledge base: HackTheBox machine writeups, CVE res
 | [cdk](Areas/Ressources/Tools/cdk.md) | Container | Container escape toolkit — enumerate, exploit, pivot |
 | [aircrack-ng](Areas/Ressources/Tools/aircrack-ng.md) | Wireless | Wi-Fi auditing — capture, crack WEP/WPA handshakes |
 | [shodan](Areas/Ressources/Tools/shodan.md) | OSINT | Internet-wide search — open ports, banners, CVEs |
+| [ldapsearch](Areas/Ressources/Tools/ldapsearch.md) | Active Directory | CLI LDAP queries — authenticated AD dump, attribute search |
+| [evil-winrm](Areas/Ressources/Tools/evil-winrm.md) | Active Directory | Interactive PowerShell shell over WinRM (port 5985/5986) |
+| [bloodhound](Areas/Ressources/Tools/bloodhound.md) | Active Directory | Graph-based AD attack path analysis — BloodHound CE + Neo4j |
+| [impacket](Areas/Ressources/Tools/impacket.md) | Active Directory | Python AD/Windows attack toolkit — psexec, secretsdump, getST, rbcd, addcomputer |
+| [ilspycmd](Areas/Ressources/Tools/ilspycmd.md) | Reverse Engineering | CLI .NET decompiler — reconstruct C# source from IL bytecode |
 
 ---
 
@@ -90,9 +103,12 @@ Personal offensive security knowledge base: HackTheBox machine writeups, CVE res
 │           ├── nexus htb machine/
 │           │   ├── Nexus htb machine (github).md   <- GitHub version (images render)
 │           │   ├── Nexus htb machine.md             <- Obsidian version (wikilinks)
-│           │   └── images/                          <- screenshots for GitHub version
+│           │   └── images/
 │           ├── silentium htb machine/
 │           ├── Cohort Htb machine/
+│           ├── support htb machine/
+│           ├── 2million htb machine/
+│           ├── Orion htb machine/
 │           └── Abducted htb machine/
 ├── Knowledge/
 │   └── Concept/               <- atomic technique notes
