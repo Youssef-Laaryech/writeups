@@ -15,6 +15,7 @@ Personal offensive security knowledge base: HackTheBox machine writeups, CVE res
 | 5 | [TwoMillion](Projects/labs%20and%20machines/writeaps/2million%20htb%20machine/2million%20writeup%20(github).md) | Linux | Easy | Complete | JS obfuscation (ROT13/base64) · API invite code generation · Broken object-level authorization (self-elevate to admin) · OS command injection · `.env` credential reuse · CVE-2023-0386 (OverlayFS SUID → root) |
 | 6 | [Orion](Projects/labs%20and%20machines/writeaps/Orion%20htb%20machine/Orion%20writeup%20(github).md) | Linux | Hard | Complete | Second-order SQL injection · TOTP/2FA bypass via SQLi · SSH agent socket hijacking · Sudo misconfiguration |
 | 7 | [Abducted](Projects/labs%20and%20machines/writeaps/Abducted%20htb%20machine/Abducted%20writeup%20(github).md) | Linux (Samba) | Medium | In Progress | SMB null session · RPC anonymous enum · User/share/policy extraction via `enum4linux-ng` |
+| 8 | [Paperwork](Projects/labs%20and%20machines/writeaps/paperwork%20htb%20machine/paperwork%20writeup.md) | Linux | Medium | In Progress | OS command injection via unsanitized job name in subprocess shell call |
 
 ---
 
@@ -117,7 +118,8 @@ Personal offensive security knowledge base: HackTheBox machine writeups, CVE res
 │   └── Ressources/
 │       ├── Tools/             <- one reference note per tool
 │       └── Commands/          <- cheatsheets by attack phase
-└── Areas/Templates/           <- Obsidian templates (writeup, tool, concept)
+└── Areas/
+    └── Templates/             <- Obsidian templates (writeup, tool, concept)
 ```
 
 Each machine writeup ships in two versions:
