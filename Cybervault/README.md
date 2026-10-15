@@ -46,6 +46,9 @@ Personal offensive security knowledge base: HackTheBox machine writeups, CVE res
 |------|----------|-------|
 | [nmap](Areas/Ressources/Tools/nmap.md) | Recon | Port scanning, service/version fingerprinting, NSE scripts |
 | [ffuf](Areas/Ressources/Tools/ffuf.md) | Recon | Web fuzzer — directories, vhosts, parameters, headers |
+| [Nessus](Areas/Ressources/Tools/nessus.md) | Vuln Assessment | Industry-standard commercial scanner — 100,000+ plugins, CVSS-rated findings, credentialed scans |
+| [OpenVAS](Areas/Ressources/Tools/openvas.md) | Vuln Assessment | Free open-source scanner (Greenbone GCE) — Kali built-in (`gvm`), full NVT feed, lab-ready |
+| [Qualys](Areas/Ressources/Tools/qualys.md) | Vuln Assessment | Enterprise cloud-based platform — continuous monitoring, compliance (PCI/HIPAA), agent-based |
 | [Burp Suite](Areas/Ressources/Tools/Burp%20Suite.md) | Web | HTTP proxy, Repeater, Intruder — manual web testing |
 | [curl](Areas/Ressources/Tools/curl.md) | Web | CLI HTTP client — crafting raw requests, API testing |
 | [nikto](Areas/Ressources/Tools/nikto.md) | Web | Web server scanner — misconfigurations, outdated software |
