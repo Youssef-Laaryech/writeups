@@ -30,6 +30,7 @@ Personal offensive security knowledge base: HackTheBox machine writeups, CVE res
 | [Information Gathering](Cybervault/Knowledge/Concept/Information%20Gathering.md) | Pentest process phase 2 — OSINT, infrastructure/service/host enumeration, pillaging |
 | [Vulnerability Assessment](Cybervault/Knowledge/Concept/Vulnerability%20Assessment.md) | Pentest process phase 3 — analysis types, CVE research, attack vector assessment, VA vs automated scanning |
 | [Exploitation](Cybervault/Knowledge/Concept/Exploitation.md) | Pentest process phase 4 — attack prioritization, PoC adaptation, local mirroring, damage risk, activity logging |
+| [Post-Exploitation](Cybervault/Knowledge/Concept/Post-Exploitation.md) | Pentest process phase 5 — evasive testing, pillaging, persistence, privesc, data exfiltration, DLP regulations |
 | [Unrestricted File Upload → RCE](Cybervault/Knowledge/Concept/Unrestricted%20File%20Upload%20RCE.md) | Bypassing file type restrictions to upload and execute server-side code |
 | [Credential Reuse](Cybervault/Knowledge/Concept/Credential%20Reuse.md) | Reusing credentials leaked from one service to authenticate to another |
 | [Vhost Fuzzing](Cybervault/Knowledge/Concept/Vhost%20Fuzzing.md) | Discovering hidden virtual hosts by fuzzing the HTTP `Host` header |
