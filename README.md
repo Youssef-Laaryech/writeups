@@ -33,6 +33,7 @@ Personal offensive security knowledge base: HackTheBox machine writeups, CVE res
 | [Post-Exploitation](Cybervault/Knowledge/Concept/Post-Exploitation.md) | Pentest process phase 5 — evasive testing, pillaging, persistence, privesc, data exfiltration, DLP regulations |
 | [Lateral Movement](Cybervault/Knowledge/Concept/Lateral%20Movement.md) | Pentest process phase 6 — pivoting, tunneling, credential reuse, PtH, Kerberoasting, NTLM relay |
 | [Proof-of-Concept](Cybervault/Knowledge/Concept/Proof-of-Concept.md) | Pentest process phase 7 — PoC forms, script pitfall, root cause vs symptom, attack chain walkthrough, evidence standards |
+| [Post-Engagement](Cybervault/Knowledge/Concept/Post-Engagement.md) | Pentest process phase 8 — cleanup, reporting structure, DRAFT→FINAL, post-remediation testing, data retention, closeout |
 | [Unrestricted File Upload → RCE](Cybervault/Knowledge/Concept/Unrestricted%20File%20Upload%20RCE.md) | Bypassing file type restrictions to upload and execute server-side code |
 | [Credential Reuse](Cybervault/Knowledge/Concept/Credential%20Reuse.md) | Reusing credentials leaked from one service to authenticate to another |
 | [Vhost Fuzzing](Cybervault/Knowledge/Concept/Vhost%20Fuzzing.md) | Discovering hidden virtual hosts by fuzzing the HTTP `Host` header |
