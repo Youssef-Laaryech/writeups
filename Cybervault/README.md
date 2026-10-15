@@ -31,6 +31,7 @@ Personal offensive security knowledge base: HackTheBox machine writeups, CVE res
 | [Vulnerability Assessment](Knowledge/Concept/Vulnerability%20Assessment.md) | Pentest process phase 3 — analysis types, CVE research, attack vector assessment, VA vs automated scanning |
 | [Exploitation](Knowledge/Concept/Exploitation.md) | Pentest process phase 4 — attack prioritization, PoC adaptation, local mirroring, damage risk, activity logging |
 | [Post-Exploitation](Knowledge/Concept/Post-Exploitation.md) | Pentest process phase 5 — evasive testing, pillaging, persistence, privesc, data exfiltration, DLP regulations |
+| [Lateral Movement](Knowledge/Concept/Lateral%20Movement.md) | Pentest process phase 6 — pivoting, tunneling, credential reuse, PtH, Kerberoasting, NTLM relay |
 | [Unrestricted File Upload → RCE](Knowledge/Concept/Unrestricted%20File%20Upload%20RCE.md) | Bypassing file type restrictions to upload and execute server-side code |
 | [Credential Reuse](Knowledge/Concept/Credential%20Reuse.md) | Reusing credentials leaked from one service to authenticate to another |
 | [Vhost Fuzzing](Knowledge/Concept/Vhost%20Fuzzing.md) | Discovering hidden virtual hosts by fuzzing the HTTP `Host` header |
