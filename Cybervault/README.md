@@ -28,6 +28,7 @@ Personal offensive security knowledge base: HackTheBox machine writeups, CVE res
 | [Path Traversal](Knowledge/Concept/Path%20Traversal.md) | Directory traversal via unsanitized path handling — `../` sequences, `os.path.join()` abuse |
 | [Pre-Engagement](Knowledge/Concept/Pre-Engagement.md) | Pentest process phase 1 — NDAs, scoping questionnaire, RoE, contract checklist, kick-off meeting |
 | [Information Gathering](Knowledge/Concept/Information%20Gathering.md) | Pentest process phase 2 — OSINT, infrastructure/service/host enumeration, pillaging |
+| [Vulnerability Assessment](Knowledge/Concept/Vulnerability%20Assessment.md) | Pentest process phase 3 — analysis types, CVE research, attack vector assessment, VA vs automated scanning |
 | [Unrestricted File Upload → RCE](Knowledge/Concept/Unrestricted%20File%20Upload%20RCE.md) | Bypassing file type restrictions to upload and execute server-side code |
 | [Credential Reuse](Knowledge/Concept/Credential%20Reuse.md) | Reusing credentials leaked from one service to authenticate to another |
 | [Vhost Fuzzing](Knowledge/Concept/Vhost%20Fuzzing.md) | Discovering hidden virtual hosts by fuzzing the HTTP `Host` header |
