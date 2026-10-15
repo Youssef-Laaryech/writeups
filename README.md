@@ -26,6 +26,7 @@ Personal offensive security knowledge base: HackTheBox machine writeups, CVE res
 | Concept | Description |
 |---------|-------------|
 | [Path Traversal](Cybervault/Knowledge/Concept/Path%20Traversal.md) | Directory traversal via unsanitized path handling — `../` sequences, `os.path.join()` abuse |
+| [Pre-Engagement](Cybervault/Knowledge/Concept/Pre-Engagement.md) | Pentest process phase 1 — NDAs, scoping questionnaire, RoE, contract checklist, kick-off meeting |
 | [Unrestricted File Upload → RCE](Cybervault/Knowledge/Concept/Unrestricted%20File%20Upload%20RCE.md) | Bypassing file type restrictions to upload and execute server-side code |
 | [Credential Reuse](Cybervault/Knowledge/Concept/Credential%20Reuse.md) | Reusing credentials leaked from one service to authenticate to another |
 | [Vhost Fuzzing](Cybervault/Knowledge/Concept/Vhost%20Fuzzing.md) | Discovering hidden virtual hosts by fuzzing the HTTP `Host` header |
